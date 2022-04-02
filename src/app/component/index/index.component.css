@@ -1,0 +1,57 @@
+/* Note
+     color will represent font color 
+     Background color will represent Background color 
+*/
+.header{
+    background: #031023!important;
+}
+.connect-btn{
+    background-color: transparent !important;
+    color: #fff !important;
+    border-color: #fff !important;
+}
+.connect-btn:hover{
+    background-color: #fff !important;
+    color: #000 !important;
+    border-color: #fff !important;
+}
+.buy-now-btn{
+    background-color: transparent !important;
+    color: #fff !important;
+    border-color: #fff !important;
+}
+.buy-now-btn:hover{
+    background-color: #fff !important;
+    color: #000 !important;
+    border-color: #fff !important;
+}
+.body{
+    /* Background Colour */
+    background-image: linear-gradient(to bottom left, #031023, #19095c) !important;
+}
+.token-info-box{
+    background-color: #f6bd26 !important;
+    -webkit-backdrop-filter: blur(24px);
+    backdrop-filter: blur(24px);
+}
+
+.btn-yellow-theme-outline {
+    border: 1px solid #f6bd26 !important;
+    color: #f6bd26 !important;
+    background-color: transparent !important;
+}
+
+.btn-yellow-theme-outline:hover {
+    border: 1px solid transparent !important;
+    color: #031023 !important;
+    background-color: #f6bd26 !important;
+}
+.support-mail{
+    color: #fff !important;
+}
+
+
+
+
+
+

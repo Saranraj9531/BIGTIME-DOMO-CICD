@@ -1,0 +1,242 @@
+<title>{{TITLE}}</title>
+<body class="bg-light bg-gradient bg-no-repeat body">
+    <nav class="navbar navbar-expand-lg navbar-light bg-nav rounded-3 px-lg-2 h-16 header">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <img src="{{LOGO}}" class="img-fluid" width="100" alt="Crowd Sale Logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+            <div class="collapse navbar-collapse ml-auto justify-content-end pb-4 pb-md-0" id="navbarNavDropdown">
+                <div class="btn-group pt-2 pt-md-0 me-2" role="group">
+                    <button *ngIf="account.address !== ''" id="btnGroupDrop1" type="button" class="btn btn-yellow-theme-outline rounded-pill dropdown-toggle connect-btn" data-bs-toggle="dropdown" aria-expanded="false">
+                        {{account.network}} - {{account.address.slice(0, 5)}}...{{account.address.slice(account.address.length - 5)}}
+                    </button>
+                    <button *ngIf="account.address == ''" id="btnGroupDrop1" type="button" class="btn btn-yellow-theme-outline rounded-pill dropdown-toggle connect-btn" data-bs-toggle="dropdown" aria-expanded="false">
+                      Connect
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                        <li (click)="connectMetamask()">
+                            <a class="dropdown-item">
+                                <img src="assets/images/metamask.png" width="20" class="me-2" alt="ICO Crowd Sale">
+                                <span class="fs-6">
+                                    Metamask
+                                </span>
+
+                            </a>
+                        </li>
+                        <li (click)="connectWallet()">
+                            <a class="dropdown-item">
+                                <img src="assets/images/wallet.png" width="20" class="me-2" alt="ICO Crowd Sale"> <span class="fs-6">
+                                Wallet Connect
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </nav>
+    <section class="alert-wrapper">
+        <div class="container">
+            <!-- BEGIN: Alert Wrapper -->
+            <div class="row">
+                <!-- Not connected Alert -->
+                <span *ngIf="account.address !== ''">
+                    <div class="alert bl-alert alert-danger w-75 mx-auto d-flex rounded align-items-center my-5" role="alert" *ngIf="!allowNetwork">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img" aria-label="Warning:">
+                            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                        </svg>
+                        <div class="pl-2">
+                            You are not connected to the {{networkName}} ({{networkType}}) network.
+                        </div>
+                    </div>
+                </span>
+                <span *ngIf="account.address == ''">
+                    <div class="alert bl-alert alert-danger w-75 mx-auto d-flex rounded align-items-center my-5" role="alert" *ngIf="!allowNetwork">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img" aria-label="Warning:">
+                            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                        </svg>
+                        <div class="pl-2">
+                            Please connect your wallet
+                        </div>
+                    </div>
+                </span>
+                <!-- Connected Alert -->
+                <span *ngIf="alertSuccess">
+                <div class="alert bl-success alert-success w-75 mx-auto rounded d-flex align-items-center" role="alert" *ngIf="allowNetwork">
+                    <svg id="check-circle-fill" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"></path>
+                      </svg>
+                    <div class="pl-alert">
+                        Connected to the {{networkName}} ({{networkType}}) network.
+                    </div>
+                </div>
+            </span>
+                <span *ngIf="tokenProcess">
+                <div class="alert bl-success alert-success w-75 mx-auto rounded d-flex align-items-center" role="alert" *ngIf="allowNetwork">
+                    <div class="pl-alert">
+                        <span> <a href="{{TRANSLINK}}/{{txHash}}" target="_blank"> Click to view Transcation</a> </span>
+                    </div>
+                </div>
+            </span>
+            </div>
+            <!-- END: Alert Wrapper -->
+        </div>
+    </section>
+    <section class="banner pb-5">
+        <div class="container">
+            <!-- BEGIN: Banner Wrapper -->
+            <div class="row align-items-center justify-content-center">
+                <div class="col-12 col-lg-6">
+                    <div class="token-content px-4 px-md-0 pt-4">
+                        <div>
+                            <h4 class="text-center text-white">{{TITLE}}</h4>
+                            <p class="text-white text-center py-4">Please make sure to connect wallet to continue with purchasing. Reach out to our support at <a class="highlight-text support-mail" href="mailto:{{SUPPORTMAIL}}"> {{SUPPORTMAIL}}</a> for any queries.</p>
+                            <form method="get">
+                                <div class="form-floating" id="inputFrom">
+                                    <input type="number" (keyup)="fromInput()" class="form-control text-sm" name="from" id="from" placeholder="{{FROMTOKENNAME}}">
+                                    <label for="from">{{FROMTOKENNAME}}</label>
+                                    <span *ngIf="getTransError" class="clr-red">{{getTransErrorText}}</span>
+                                </div>
+                                <button type=button class="mx-auto text-center w-100 bg-transparent border-transparent" onClick="switchText()">
+                                    <svg class="my-4 svg-inline--fa fa-exchange fa-w-16 transform-rotate-90deg" aria-hidden="true" focusable="false" data-prefix="far" data-icon="exchange" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M508.485 168.485l-100.375 100c-4.686 4.686-12.284 4.686-16.97 0l-19.626-19.626c-4.753-4.753-4.675-12.484.173-17.14L422.916 184H12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h410.916l-51.228-47.719c-4.849-4.656-4.927-12.387-.173-17.14l19.626-19.626c4.686-4.686 12.284-4.686 16.97 0l100.375 100c4.685 4.686 4.685 12.284-.001 16.97zm-504.97 192l100.375 100c4.686 4.686 12.284 4.686 16.97 0l19.626-19.626c4.753-4.753 4.675-12.484-.173-17.14L89.084 376H500c6.627 0 12-5.373 12-12v-24c0-6.627-5.373-12-12-12H89.084l51.228-47.719c4.849-4.656 4.927-12.387.173-17.14l-19.626-19.626c-4.686-4.686-12.284-4.686-16.97 0l-100.375 100c-4.686 4.686-4.686 12.284.001 16.97z"></path></svg>
+                                </button>
+                                <div class="form-floating pb-2" id="inputTo">
+                                    <input type="number" (keyup)="toInput()" class="form-control text-sm" name="to" id="to" placeholder="{{TOTOKENNAME}}">
+                                    <label for="to">{{TOTOKENNAME}}</label>
+                                </div>
+                                <div class="d-grid gap-2 my-4 col-8 mx-auto">
+                                <button *ngIf="!allowNetwork" disabled class="btn buy-now-btn btn-yellow-theme-outline buy_now" (click)="buyNow()" type="button">
+                                        <div *ngIf="isLoading" class="loader">  </div> 
+                                            <span *ngIf="!isLoading" > Buy Now </span>
+                                        <span *ngIf="isLoading" class="loaderText"> Processing... Please wait! </span>
+                                    </button>
+                                    <button *ngIf="allowNetwork" class="btn buy-now-btn btn-yellow-theme-outline buy_now" (click)="buyNow()" type="button">
+                                        <div *ngIf="isLoading" class="loader">  </div> 
+                                            <span *ngIf="!isLoading" > Buy Now </span>
+                                        <span *ngIf="isLoading" class="loaderText"> Processing... Please wait! </span>
+                                    </button>
+                                </div>
+                            </form>
+                            <div class="token-description text-center">
+                                <p class="text-white"><strong>{{calculatorFromText}} {{FROMTOKENNAME}} = {{calculatorToText}} {{TOTOKENNAME}}</strong></p>
+                                <p class="text-white"> Start Sale Time: {{saleStart}}</p>
+                                <p class="text-white"> End Sale Time: {{saleEnd}}</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 rounded-3">
+                    <div class="mt-4 mt-md-0 token_menu">
+                        <div class="card bg-box text-white token-info-box">
+                            <h3 class="text-center">Token Info</h3>
+                            <table class="table table-token animated fadeInUp" data-animate="fadeInUp" data-delay=".8" style="visibility: visible; animation-delay: 0.8s;">
+                                <tbody>
+                                    <tr>
+                                        <td class="table-head text-white">Token Name</td>
+                                        <td class="table-des text-white">{{tokenName}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="table-head text-white">Token Symbol</td>
+                                        <td class="table-des text-white">{{tokenSymbol}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="table-head text-white">Contract Address</td>
+                                        <td class="table-des text-white text-break">{{contractAddress}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="table-head text-white">Round </td>
+                                        <td class="table-des text-white">Public Sale</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="table-head text-white">Token Price</td>
+                                        <td class="table-des text-white"> 1 {{FROMTOKENNAME}} = {{tokenRate}} {{TOTOKENNAME}} </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <h3 class="text-center py-2">Wallet Info</h3>
+                            <table class="table table-token table-token-s1 animated fadeInUp" data-animate="fadeInUp" data-delay=".8" style="visibility: visible; animation-delay: 0.8s;">
+                                <tbody>
+                                    <tr>
+                                        <td class="table-head text-white wallet_td">Current Wallet</td>
+                                        <td class="table-des text-white text-break">  
+                                            <span *ngIf="account.address">{{account.address}}</span> 
+                                            <span *ngIf="!account.address">-</span> 
+                                        </td>
+                                    </tr>
+
+
+                                    <tr>
+                                        <td class="table-head text-white wallet_td">No of Token <br>Purchased</td>
+                                        <td class="table-des text-white"> <span *ngIf="allowNetwork">{{tokenPurchase}} {{TOTOKENNAME}}</span>
+                                            <span *ngIf="!allowNetwork"> - </span>
+                                         </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END: Banner Wrapper -->
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="row">
+            <footer class="d-flex flex-wrap justify-content-between align-items-center pt-4 my-4 border-top">
+                <div class="col-md-4 d-flex align-items-center">
+                    <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
+                    </a>
+                    <span class="text-white">© {{todayDate | date: 'y'}} {{TITLE}}</span>
+                </div>
+
+                <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+                    <li class="ms-2" *ngIf="FACEBOOK != ''">
+                        <a target="_blank" class="text-white fs-5" href="{{FACEBOOK}}">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                    </li>
+                    <li class="ms-3" *ngIf="INSTAGRAM != ''">
+                        <a target="_blank" class="text-white fs-5" href="{{INSTAGRAM}}">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </li>
+                    <li class="ms-3" *ngIf="PINTEREST != ''">
+                        <a target="_blank" class="text-white fs-5" href="{{PINTEREST}}">
+                            <i class="fab fa-pinterest"></i>
+                        </a>
+                    </li>
+                    <li class="ms-3" *ngIf="TWITTER != ''">
+                        <a target="_blank" class="text-white fs-5" href="{{TWITTER}}">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </li>
+                    <li class="ms-3" *ngIf="GOOGLE != ''">
+                        <a target="_blank" class="text-white fs-5" href="{{GOOGLE}}">
+                            <i class="fab fa-google"></i>
+                        </a>
+                    </li>
+                    <li class="ms-3" *ngIf="WHATSAPP != ''">
+                        <a target="_blank" class="text-white fs-5" href="{{WHATSAPP}}">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                    </li>
+                    <li class="ms-3" *ngIf="LINKEDIN != ''">
+                        <a target="_blank" class="text-white fs-5" href="{{LINKEDIN}}">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                    </li>
+                </ul>
+            </footer>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+</body>

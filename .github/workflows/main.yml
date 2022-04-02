@@ -1,0 +1,45 @@
+name: Ghost Development server
+
+on:
+  push:
+    branches:
+    - main
+
+jobs:
+  build:
+    # using Ubuntu
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2 #this installs node and npm for us
+        with:
+          node-version: "12.x"
+
+      - uses: actions/cache@v1 # this allows for re-using node_modules caching, making builds a bit faster.
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - run: npm cache clean --force
+      - run: npm install
+      - run: npm audit fix
+      - run: npm audit fix --force --production
+      - run: npm cache clean --force
+      - run: npm install -g @angular/cli@9.1.13
+      - run: npm ls -g --depth=0
+      - run: node patch.js
+      - run: ng build
+
+      - name: copy file via ssh key
+        uses: appleboy/scp-action@master
+        env:
+          HOST: 143.198.103.144
+          USERNAME: root
+          PORT:  22
+          KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        with:
+          source: "./dist"
+          target: "/var/www/html/crowdsale"
+          strip_components: 2  
