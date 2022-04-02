@@ -31,15 +31,16 @@ jobs:
       - run: npm ls -g --depth=0
       - run: node patch.js
       - run: ng build
+  deploy to production:
 
       - name: copy file via ssh key
         uses: appleboy/scp-action@master
         env:
-          HOST: 143.198.103.144
-          USERNAME: root
+          HOST: 23.23.22.170
+          USERNAME: ubuntu
           PORT:  22
           KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         with:
           source: "./dist"
-          target: "/var/www/html/crowdsale"
+          target: "/var/www/html/demo"
           strip_components: 2  
