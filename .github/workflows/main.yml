@@ -1,4 +1,4 @@
-name: Ghost Development server
+name: angular demo 
 
 on:
   push:
@@ -31,7 +31,6 @@ jobs:
       - run: npm ls -g --depth=0
       - run: node patch.js
       - run: ng build
-  deploy to production:
 
       - name: copy file via ssh key
         uses: appleboy/scp-action@master
