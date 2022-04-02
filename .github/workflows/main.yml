@@ -1,5 +1,3 @@
-name: angular demo 
-
 on:
   push:
     branches:
@@ -11,10 +9,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2 #this installs node and npm for us
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1 #this installs node and npm for us
         with:
-          node-version: "10.19"
+          node-version: "14.x"
 
       - uses: actions/cache@v1 # this allows for re-using node_modules caching, making builds a bit faster.
         with:
@@ -24,18 +22,13 @@ jobs:
             ${{ runner.os }}-node-
       - run: npm cache clean --force
       - run: npm install
-      - run: npm audit fix
-      - run: npm audit fix --force --production
-      - run: npm cache clean --force
-      - run: npm install -g @angular/cli@9.1.13
-      - run: npm ls -g --depth=0
-      - run: node patch.js
+      - run: npm install -g @angular/cli > /dev/null
       - run: ng build
 
       - name: copy file via ssh key
         uses: appleboy/scp-action@master
         env:
-          HOST: 23.23.22.170
+          HOST:  23.23.22.170
           USERNAME: ubuntu
           PORT:  22
           KEY: ${{ secrets.SSH_PRIVATE_KEY }}
