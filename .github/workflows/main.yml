@@ -35,4 +35,4 @@ jobs:
         with:
           source: "./dist"
           target: "/var/www/html/demo"
-          strip_components: 2  
+          strip_components:  2  
